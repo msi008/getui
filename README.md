@@ -1,5 +1,5 @@
 # node-getui
-不知道为啥个推不把 SDK 放上来。无法用 npm 装。本仓库单纯做了一个方法整理，加速开发。
+由于个推没有发布node包，个人管理一个node包维护。
 
 # 安装方法
 		npm install --save git+https://github.com/godblesshugh/node-getui.git
@@ -12,3 +12,4 @@
 		}, function(err){
 			console.error(err)
 		})
+		
