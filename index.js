@@ -76,7 +76,7 @@ function createTransmissionTemplate(content, alertMessage, badge, sound) {
         payload.contentAvailable = 1;
         payload.category = "ACTIONABLE";
         payload.sound = sound;
-        payload.customMsg.payload = "payload";
+        payload.customMsg.payload = "payload1";
         // 简单模式使用
         var alertMsg = new SimpleAlertMsg();
         alertMsg.alertMsg = alertMessage;
