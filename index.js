@@ -69,7 +69,7 @@ function createTransmissionTemplate(content, alertMessage, badge, sound) {
     template.setAppId(GlobalConfig.APPID);
     template.setAppkey(GlobalConfig.APPKEY);
     template.setTransmissionContent(content);
-    template.setTransmissionType(1);
+    template.setTransmissionType(2);
     if (alertMessage) {
         var payload = new APNPayload();
         payload.badge = badge;
