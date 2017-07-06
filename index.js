@@ -6,9 +6,9 @@ var Target = require('./getui/Target');
 var SingleMessage = require('./getui/message/SingleMessage');
 var TransmissionTemplate = require('./getui/template/TransmissionTemplate');
 
-function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS) {
+function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType) {
 	var gt = GlobalConfig.gt
-    var template = createTransmissionTemplate(content, alertMessage, badge, sound);
+    var template = createTransmissionTemplate(content, alertMessage, badge, sound, TransmissionType);
     //单推消息体
     var message = new SingleMessage({
         isOffline: true,                        //是否离线
@@ -64,12 +64,13 @@ function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIA
     })
 }
 
-function createTransmissionTemplate(content, alertMessage, badge, sound) {
+function createTransmissionTemplate(content, alertMessage, badge, sound, TransmissionType) {
     var template = new TransmissionTemplate();
     template.setAppId(GlobalConfig.APPID);
     template.setAppkey(GlobalConfig.APPKEY);
     template.setTransmissionContent(content);
-    template.setTransmissionType(2);
+    TransmissionType = !!TransmissionType ? TransmissionType : 2;
+    template.setTransmissionType(TransmissionType);
     if (alertMessage) {
         var payload = new APNPayload();
         payload.badge = badge;
@@ -125,8 +126,8 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
 	 * @param     {string || null}  ALIAS   如果传 ALIAS，则默认 clientId 失效
 	 * @returns   {Promise}  Promise
 	 */
-	module.exports.pushMessageToSingle = function(clientId, content, alertMessage, badge, sound, ALIAS){
-		return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS)
+	module.exports.pushMessageToSingle = function(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType){
+		return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType)
 	}
 
 	return this
