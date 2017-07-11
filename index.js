@@ -6,6 +6,31 @@ var Target = require('./getui/Target');
 var SingleMessage = require('./getui/message/SingleMessage');
 var TransmissionTemplate = require('./getui/template/TransmissionTemplate');
 
+
+function pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType) {
+    var taskGroupName = null;
+    var gt = GlobalConfig.gt;
+    var template = createTransmissionTemplate(content, alertMessage, badge, sound, TransmissionType);
+
+    // 定义"AppMessage"类型消息对象，设置消息内容模板、发送的目标App列表、是否支持离线发送、以及离线消息有效期(单位毫秒)
+    var message = new AppMessage({
+        isOffline: false,
+        offlineExpireTime: 3600 * 12 * 1000,
+        data: template,
+        appIdList: [appId],
+        //phoneTypeList: ['ANDRIOD','IOS'],
+        phoneTypeList: [system],
+        //provinceList: ['浙江','上海','北京'],
+        //tagList: ['开心'],
+        speed: 10000
+    });
+
+    gt.pushMessageToApp(message, taskGroupName, function (err, res) {
+        console.log(res);
+    });
+}
+
+
 function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType) {
 	var gt = GlobalConfig.gt
     var template = createTransmissionTemplate(content, alertMessage, badge, sound, TransmissionType);
@@ -129,6 +154,10 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
 	module.exports.pushMessageToSingle = function(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType){
 		return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType)
 	}
+
+	module.exports.pushMessageToApp = function (appId, system, content, alertMessage, badge, sound, TransmissionType) {
+        return pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType)
+    }
 
 	return this
 }
