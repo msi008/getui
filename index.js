@@ -4,6 +4,7 @@ var APNPayload = require('./payload/APNPayload');
 var SimpleAlertMsg = require('./payload/SimpleAlertMsg');
 var Target = require('./getui/Target');
 var SingleMessage = require('./getui/message/SingleMessage');
+var AppMessage = require('./getui/message/AppMessage');
 var TransmissionTemplate = require('./getui/template/TransmissionTemplate');
 
 
@@ -22,17 +23,50 @@ function pushMessageToApp(appId, system, content, alertMessage, badge, sound, Tr
         phoneTypeList: [system],
         //provinceList: ['浙江','上海','北京'],
         //tagList: ['开心'],
-        speed: 10000
+        //speed: 10000
     });
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.pushMessageToApp(message, taskGroupName, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.pushMessageToApp(message,taskGroupName,requestId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
 
-    gt.pushMessageToApp(message, taskGroupName, function (err, res) {
-        console.log(res);
-    });
 }
 
 
 function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType) {
-	var gt = GlobalConfig.gt
+    var gt = GlobalConfig.gt
     var template = createTransmissionTemplate(content, alertMessage, badge, sound, TransmissionType);
     //单推消息体
     var message = new SingleMessage({
@@ -47,45 +81,45 @@ function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIA
     });
 
     if (ALIAS) {
-	    target.setAppId(GlobalConfig.APPID).setAlias(ALIAS);
+        target.setAppId(GlobalConfig.APPID).setAlias(ALIAS);
     } else {
-	    target.setAppId(GlobalConfig.APPID).setClientId(clientId);
+        target.setAppId(GlobalConfig.APPID).setClientId(clientId);
     }
     var result = ''
     return new Promise(function(resolve, reject){
-	    gt.pushMessageToSingle(message, target, function(err, res){
-	        if(err != null){
-	            reject(err)
-	        } else {
-		        resolve(res)
-	        }
-	    })
+        gt.pushMessageToSingle(message, target, function(err, res){
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
     }).then(function(data){
-    	if (data) {
-    		result = data
-    	}
+        if (data) {
+            result = data
+        }
     }, function(err){
-    	if (err != null && err.exception != null && err.exception instanceof RequestError) {
-    		return new Promise(function(resolve, reject){
-	            //发送异常重传
-	            gt.pushMessageToSingle(message,target,requestId,function(err, res){
-	            	if (err) {
-	            		reject(err)
-	            	} else {
-	            		resolve(res)
-	            	}
-	            });
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.pushMessageToSingle(message,target,requestId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
             })
-    	} else {
-    		return Promise.reject(err)
-    	}
+        } else {
+            return Promise.reject(err)
+        }
     }).then(function(data){
-    	if (data) {
-    		result = data
-    	}
-		return Promise.resolve(result)
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
     }, function(err){
-    	return Promise.reject(err)
+        return Promise.reject(err)
     })
 }
 
@@ -138,26 +172,26 @@ function getDictionaryAlertMsg() {
  * @returns   {object}  返回一个新的对象，其中包括了所有 module.export.* 的方法和参数
  */
 exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
-	GlobalConfig.init(HOST, APPID, APPKEY, MASTERSECRET)
+    GlobalConfig.init(HOST, APPID, APPKEY, MASTERSECRET)
 
-	/**
-	 * 给单个用户发送推送，优先以 ALIAS 为准（存在 ALIAS 则不会给 clientId 发送）
-	 * @function  pushMessageToSingle
-	 * @param     {string}  clientId  接收推送的 clientId
-	 * @param     {string}  content   推送内容
-	 * @param     {string}  alertMessage   提示内容
-	 * @param     {int}  badge  iOS badge
-	 * @param     {string}  sound  iOS sound
-	 * @param     {string || null}  ALIAS   如果传 ALIAS，则默认 clientId 失效
-	 * @returns   {Promise}  Promise
-	 */
-	module.exports.pushMessageToSingle = function(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType){
-		return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType)
-	}
+    /**
+     * 给单个用户发送推送，优先以 ALIAS 为准（存在 ALIAS 则不会给 clientId 发送）
+     * @function  pushMessageToSingle
+     * @param     {string}  clientId  接收推送的 clientId
+     * @param     {string}  content   推送内容
+     * @param     {string}  alertMessage   提示内容
+     * @param     {int}  badge  iOS badge
+     * @param     {string}  sound  iOS sound
+     * @param     {string || null}  ALIAS   如果传 ALIAS，则默认 clientId 失效
+     * @returns   {Promise}  Promise
+     */
+    module.exports.pushMessageToSingle = function(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType){
+        return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType)
+    }
 
-	module.exports.pushMessageToApp = function (appId, system, content, alertMessage, badge, sound, TransmissionType) {
+    module.exports.pushMessageToApp = function (appId, system, content, alertMessage, badge, sound, TransmissionType) {
         return pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType)
     }
 
-	return this
+    return this
 }
