@@ -8,6 +8,253 @@ var AppMessage = require('./getui/message/AppMessage');
 var TransmissionTemplate = require('./getui/template/TransmissionTemplate');
 
 
+function getPushResult(taskId) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.getPushResult(taskId, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.getPushResult(taskId, function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
+
+function unBindAlias(appId, alias, clientId) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.unBindAlias(appId, alias, clientId, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.unBindAlias(appId, alias, clientId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
+function bindAlias(appId, alias, clientId) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.bindAlias(appId, alias, clientId, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.bindAlias(appId, alias, clientId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
+function getClientIdStatus(appId, clientId) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.getClientIdStatus(appId, clientId, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.getClientIdStatus(appId,clientId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
+function queryAlias(appId, clientId) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.queryAlias(appId, clientId, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.queryAlias(appId,clientId,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
+function queryClientId(appId, alias) {
+    var gt = GlobalConfig.gt;
+    var result = ''
+    return new Promise(function(resolve, reject){
+        gt.queryClientId(appId, alias, function (err, res) {
+            if(err != null){
+                reject(err)
+            } else {
+                resolve(res)
+            }
+        })
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+    }, function(err){
+        if (err != null && err.exception != null && err.exception instanceof RequestError) {
+            return new Promise(function(resolve, reject){
+                //发送异常重传
+                gt.queryClientId(appId,alias,function(err, res){
+                    if (err) {
+                        reject(err)
+                    } else {
+                        resolve(res)
+                    }
+                });
+            })
+        } else {
+            return Promise.reject(err)
+        }
+    }).then(function(data){
+        if (data) {
+            result = data
+        }
+        return Promise.resolve(result)
+    }, function(err){
+        return Promise.reject(err)
+    })
+}
+
+
 function pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType) {
     var taskGroupName = null;
     var gt = GlobalConfig.gt;
@@ -42,7 +289,7 @@ function pushMessageToApp(appId, system, content, alertMessage, badge, sound, Tr
         if (err != null && err.exception != null && err.exception instanceof RequestError) {
             return new Promise(function(resolve, reject){
                 //发送异常重传
-                gt.pushMessageToApp(message,taskGroupName,requestId,function(err, res){
+                gt.pushMessageToApp(message,taskGroupName,function(err, res){
                     if (err) {
                         reject(err)
                     } else {
@@ -102,7 +349,7 @@ function pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIA
         if (err != null && err.exception != null && err.exception instanceof RequestError) {
             return new Promise(function(resolve, reject){
                 //发送异常重传
-                gt.pushMessageToSingle(message,target,requestId,function(err, res){
+                gt.pushMessageToSingle(message,target,function(err, res){
                     if (err) {
                         reject(err)
                     } else {
@@ -191,6 +438,30 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
 
     module.exports.pushMessageToApp = function (appId, system, content, alertMessage, badge, sound, TransmissionType) {
         return pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType)
+    }
+
+    module.exports.queryClientId = function (appId, alias) {
+        return queryClientId(appId, alias)
+    }
+
+    module.exports.queryAlias = function (appId, clientId) {
+        return queryAlias(appId, clientId)
+    }
+
+    module.exports.getClientIdStatus = function (appId, clientId) {
+        return getClientIdStatus(appId, clientId)
+    }
+
+    module.exports.bindAlias = function (appId, alias, clientId) {
+        return bindAlias(appId, alias, clientId)
+    }
+
+    module.exports.unBindAlias = function (appId, alias, clientId) {
+        return unBindAlias(appId, alias, clientId)
+    }
+
+    module.exports.getPushResult = function (taskId) {
+        return getPushResult(taskId)
     }
 
     return this

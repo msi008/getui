@@ -496,6 +496,7 @@ GeTui.prototype.queryAlias = function (appId, clientId, callback) {
     };
     this.httpPostJson(this._host, postData, false, callback);
 };
+
 /**
  * 取消别名绑定
  * @param appId
