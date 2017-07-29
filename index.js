@@ -436,30 +436,71 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
         return pushMessageToSingle(clientId, content, alertMessage, badge, sound, ALIAS, TransmissionType)
     }
 
+    /**
+     * 定向APP推送
+     * @param appId
+     * @param system
+     * @param content
+     * @param alertMessage
+     * @param badge
+     * @param sound
+     * @param TransmissionType
+     */
     module.exports.pushMessageToApp = function (appId, system, content, alertMessage, badge, sound, TransmissionType) {
         return pushMessageToApp(appId, system, content, alertMessage, badge, sound, TransmissionType)
     }
 
+    /**
+     * 获取CID
+     * @param appId
+     * @param alias
+     */
     module.exports.queryClientId = function (appId, alias) {
         return queryClientId(appId, alias)
     }
 
+    /**
+     * 获取别名
+     * @param appId
+     * @param clientId
+     */
     module.exports.queryAlias = function (appId, clientId) {
         return queryAlias(appId, clientId)
     }
 
+    /**
+     * 获取在线状态
+     * @param appId
+     * @param clientId
+     */
     module.exports.getClientIdStatus = function (appId, clientId) {
         return getClientIdStatus(appId, clientId)
     }
 
+    /**
+     * 绑定别名
+     * @param appId
+     * @param alias
+     * @param clientId
+     */
     module.exports.bindAlias = function (appId, alias, clientId) {
         return bindAlias(appId, alias, clientId)
     }
 
+    /**
+     * 解绑别名
+     * @param appId
+     * @param alias
+     * @param clientId
+     */
     module.exports.unBindAlias = function (appId, alias, clientId) {
         return unBindAlias(appId, alias, clientId)
     }
 
+    /**
+     * 获取推送结果信息
+     * @param taskId
+     */
     module.exports.getPushResult = function (taskId) {
         return getPushResult(taskId)
     }
