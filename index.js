@@ -474,7 +474,7 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
      * @param clientId
      */
     module.exports.getClientIdStatus = function (appId, clientId) {
-        return getClientIdStatus(appId, clientId)
+        return getClientIdStatus(appId, clientId);
     }
 
     /**
@@ -484,7 +484,7 @@ exports.init = function(HOST, APPID, APPKEY, MASTERSECRET) {
      * @param clientId
      */
     module.exports.bindAlias = function (appId, alias, clientId) {
-        return bindAlias(appId, alias, clientId)
+        return bindAlias(appId, alias, clientId);
     }
 
     /**
